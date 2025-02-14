@@ -16,5 +16,11 @@ public class Task {
         System.out.println(description);
     }
 
-    //...
+    public String toString() {
+        return "[" + (isDone ? "X" : " ") + "] " + description;
+    }
+
+    public void setDone(boolean done){
+        isDone = done;
+    }
 }

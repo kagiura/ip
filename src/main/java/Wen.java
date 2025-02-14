@@ -17,6 +17,7 @@ public class Wen {
             final String commandArgs = input.split(" ", 2).length > 1 ? input.split(" ", 2)[1] : "";
 
             switch (command) {
+                case "":
                 case "bye":
                     break;
 
@@ -24,7 +25,17 @@ public class Wen {
                     printTasks();
                     break;
 
-
+                case "mark":
+                case "unmark":
+                    try {
+                        int taskIndex = Integer.parseInt(commandArgs);
+                        markTask(tasks[taskIndex -1], command.equals("mark"));
+                    } catch (NumberFormatException e) {
+                        System.out.println("The task number is formatted incorrectly!");
+                    } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+                        System.out.println("This task doesn't exist!");
+                    }
+                    break;
 
                 default:
                     addTask(input);
@@ -53,7 +64,7 @@ public class Wen {
     private static void printTasks() {
         System.out.println("You currently have " + taskCount + " tasks!");
         for (int i=0; i<taskCount; i++) {
-            tasks[i].print();
+            System.out.println(i+1 + ". " + tasks[i]);
         }
     }
 
@@ -64,5 +75,14 @@ public class Wen {
         tasks[taskCount].print();
 
         taskCount++;
+    }
+
+    private static void markTask(Task task, boolean done) {
+        task.setDone(done);
+        if (done) {
+            System.out.println("Task marked as done: " + task);
+        } else {
+            System.out.println("Task marked as incomplete: " + task);
+        }
     }
 }
