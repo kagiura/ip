@@ -37,9 +37,37 @@ public class Wen {
                     }
                     break;
 
+                case "todo":
+                    addTodo(commandArgs.trim());
+                    break;
+
+                case "deadline":
+                    if (!commandArgs.contains("/by")) {
+                        System.out.println("Please specify a due date using /by!");
+                        break;
+                    }
+                    final String deadlineDesc = commandArgs.split("/by", 2)[0].trim();
+                    final String deadlineBy  = commandArgs.split("/by", 2)[1].trim();
+
+                    addDeadline(deadlineDesc, deadlineBy);
+                    break;
+
+
+                case "event":
+                    if (!commandArgs.contains("/from") || !commandArgs.contains("/to")) {
+                        System.out.println("Please specify the event duration using /from and /to!");
+                        break;
+                    }
+                    final String eventDesc = commandArgs.split("/from", 2)[0].split("/to", 2)[0].trim();
+                    final String eventFrom  = commandArgs.split("/from", 2)[1].split("/to", 2)[0].trim();
+                    final String eventTo = commandArgs.split("/to", 2)[1].split("/from", 2)[0].trim();
+
+                    addEvent(eventDesc, eventFrom, eventTo);
+                    break;
+
                 default:
-                    addTask(input);
-//                    System.out.println("Unknown command \""+command+"\"! Double check your message and try running again~");
+//                    addTask(input);
+                    System.out.println("Unknown command \""+command+"\"! Double check your message and try running again~");
                     break;
             }
         }
@@ -71,7 +99,7 @@ public class Wen {
     private static void addTask(String description) {
         tasks[taskCount] = new Task(description);
 
-        System.out.println("Task added succesfully:");
+        System.out.println("Task added successfully:");
         tasks[taskCount].print();
 
         taskCount++;
@@ -84,5 +112,23 @@ public class Wen {
         } else {
             System.out.println("Task marked as incomplete: " + task);
         }
+    }
+
+    private static void addTodo(String description) {
+        tasks[taskCount] = new Todo(description);
+        System.out.println("Task added successfully:" + tasks[taskCount]);
+        taskCount++;
+    }
+
+    private static void addDeadline(String desc, String by) {
+        tasks[taskCount] = new Deadline(desc, by);
+        System.out.println("Task added successfully:" + tasks[taskCount]);
+        taskCount++;
+    }
+
+    private static void addEvent(String desc, String from, String to) {
+        tasks[taskCount] = new Event(desc, from, to);
+        System.out.println("Task added successfully:" + tasks[taskCount]);
+        taskCount++;
     }
 }
