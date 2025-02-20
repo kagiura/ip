@@ -2,8 +2,9 @@ import java.util.Scanner;
 
 public class Wen {
 
+    private static final int TASK_COUNT = 100;
     private static int taskCount = 0;
-    private static Task[] tasks = new Task[100];
+    private static Task[] tasks = new Task[TASK_COUNT];
 
     public static void main(String[] args) {
         initializeAndGreet();
@@ -11,65 +12,65 @@ public class Wen {
         String input = "";
         Scanner in = new Scanner(System.in);
 
+
         while (!input.equals("bye")) {
-            input = in.nextLine();
             final String command = input.split(" ", 2)[0];
             final String commandArgs = input.split(" ", 2).length > 1 ? input.split(" ", 2)[1] : "";
 
             switch (command) {
-                case "":
-                case "bye":
+            case "":
+                break;
+
+            case "list":
+                printTasks();
+                break;
+
+            case "mark":
+            case "unmark":
+                try {
+                    int taskIndex = Integer.parseInt(commandArgs);
+                    markTask(tasks[taskIndex - 1], command.equals("mark"));
+                } catch (NumberFormatException e) {
+                    System.out.println("The task number is formatted incorrectly!");
+                } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+                    System.out.println("This task doesn't exist!");
+                }
+                break;
+
+            case "todo":
+                addTodo(commandArgs.trim());
+                break;
+
+            case "deadline":
+                if (!commandArgs.contains("/by")) {
+                    System.out.println("Please specify a due date using /by!");
                     break;
+                }
+                final String deadlineDesc = commandArgs.split("/by", 2)[0].trim();
+                final String deadlineBy = commandArgs.split("/by", 2)[1].trim();
 
-                case "list":
-                    printTasks();
+                addDeadline(deadlineDesc, deadlineBy);
+                break;
+
+
+            case "event":
+                if (!commandArgs.contains("/from") || !commandArgs.contains("/to")) {
+                    System.out.println("Please specify the event duration using /from and /to!");
                     break;
+                }
+                final String eventDesc = commandArgs.split("/from", 2)[0].split("/to", 2)[0].trim();
+                final String eventFrom = commandArgs.split("/from", 2)[1].split("/to", 2)[0].trim();
+                final String eventTo = commandArgs.split("/to", 2)[1].split("/from", 2)[0].trim();
 
-                case "mark":
-                case "unmark":
-                    try {
-                        int taskIndex = Integer.parseInt(commandArgs);
-                        markTask(tasks[taskIndex -1], command.equals("mark"));
-                    } catch (NumberFormatException e) {
-                        System.out.println("The task number is formatted incorrectly!");
-                    } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
-                        System.out.println("This task doesn't exist!");
-                    }
-                    break;
+                addEvent(eventDesc, eventFrom, eventTo);
+                break;
 
-                case "todo":
-                    addTodo(commandArgs.trim());
-                    break;
-
-                case "deadline":
-                    if (!commandArgs.contains("/by")) {
-                        System.out.println("Please specify a due date using /by!");
-                        break;
-                    }
-                    final String deadlineDesc = commandArgs.split("/by", 2)[0].trim();
-                    final String deadlineBy  = commandArgs.split("/by", 2)[1].trim();
-
-                    addDeadline(deadlineDesc, deadlineBy);
-                    break;
-
-
-                case "event":
-                    if (!commandArgs.contains("/from") || !commandArgs.contains("/to")) {
-                        System.out.println("Please specify the event duration using /from and /to!");
-                        break;
-                    }
-                    final String eventDesc = commandArgs.split("/from", 2)[0].split("/to", 2)[0].trim();
-                    final String eventFrom  = commandArgs.split("/from", 2)[1].split("/to", 2)[0].trim();
-                    final String eventTo = commandArgs.split("/to", 2)[1].split("/from", 2)[0].trim();
-
-                    addEvent(eventDesc, eventFrom, eventTo);
-                    break;
-
-                default:
-//                    addTask(input);
-                    System.out.println("Unknown command \""+command+"\"! Double check your message and try running again~");
-                    break;
+            default:
+                System.out.println("Unknown command \"" + command + "\"! Double check your message and try running again~");
+                break;
             }
+
+            input = in.nextLine();
         }
 
         terminateAndGoodbye();
@@ -91,18 +92,9 @@ public class Wen {
 
     private static void printTasks() {
         System.out.println("You currently have " + taskCount + " tasks!");
-        for (int i=0; i<taskCount; i++) {
-            System.out.println(i+1 + ". " + tasks[i]);
+        for (int i = 0; i < taskCount; i++) {
+            System.out.println(i + 1 + ". " + tasks[i]);
         }
-    }
-
-    private static void addTask(String description) {
-        tasks[taskCount] = new Task(description);
-
-        System.out.println("Task added successfully:");
-        tasks[taskCount].print();
-
-        taskCount++;
     }
 
     private static void markTask(Task task, boolean done) {
