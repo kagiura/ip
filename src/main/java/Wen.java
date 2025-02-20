@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Wen {
 
-    private static final ArrayList<Task> tasks = new ArrayList<Task>();
+    private static final ArrayList<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
         initializeAndGreet();
@@ -22,6 +22,17 @@ public class Wen {
 
             case "list":
                 printTasks();
+                break;
+
+            case "delete":
+                try {
+                    int taskIndex = Integer.parseInt(commandArgs);
+                    deleteTask(taskIndex -1);
+                } catch (NumberFormatException e) {
+                    System.out.println("The task number is formatted incorrectly!");
+                } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+                    System.out.println("This task doesn't exist!");
+                }
                 break;
 
             case "mark":
@@ -99,6 +110,14 @@ public class Wen {
         for (int i = 0; i < taskCount(); i++) {
             System.out.println(i + 1 + ". " + tasks.get(i));
         }
+    }
+
+    private static void deleteTask(int taskIndex) {
+        String taskToDelete = tasks.get(taskIndex - 1).toString();
+        tasks.remove(taskIndex);
+        System.out.println("Task " + taskIndex + " has been deleted!");
+        System.out.println("(" + taskToDelete + ")");
+        System.out.println("You currently have " + taskCount() + " tasks!");
     }
 
     private static void markTask(Task task, boolean done) {
