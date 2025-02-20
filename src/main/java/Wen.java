@@ -1,10 +1,9 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Wen {
 
-    private static final int TASK_COUNT = 100;
-    private static int taskCount = 0;
-    private static Task[] tasks = new Task[TASK_COUNT];
+    private static final ArrayList<Task> tasks = new ArrayList<Task>();
 
     public static void main(String[] args) {
         initializeAndGreet();
@@ -29,7 +28,7 @@ public class Wen {
             case "unmark":
                 try {
                     int taskIndex = Integer.parseInt(commandArgs);
-                    markTask(tasks[taskIndex - 1], command.equals("mark"));
+                    markTask(tasks.get(taskIndex - 1), command.equals("mark"));
                 } catch (NumberFormatException e) {
                     System.out.println("The task number is formatted incorrectly!");
                 } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
@@ -91,10 +90,14 @@ public class Wen {
         System.exit(0);
     }
 
+    private static int taskCount() {
+        return tasks.size();
+    }
+
     private static void printTasks() {
-        System.out.println("You currently have " + taskCount + " tasks!");
-        for (int i = 0; i < taskCount; i++) {
-            System.out.println(i + 1 + ". " + tasks[i]);
+        System.out.println("You currently have " + taskCount() + " tasks!");
+        for (int i = 0; i < taskCount(); i++) {
+            System.out.println(i + 1 + ". " + tasks.get(i));
         }
     }
 
@@ -108,20 +111,17 @@ public class Wen {
     }
 
     private static void addTodo(String description) {
-        tasks[taskCount] = new Todo(description);
-        System.out.println("Task added successfully:" + tasks[taskCount]);
-        taskCount++;
+        tasks.add(new Todo(description));
+        System.out.println("Task added successfully:" + tasks.getLast());
     }
 
     private static void addDeadline(String desc, String by) {
-        tasks[taskCount] = new Deadline(desc, by);
-        System.out.println("Task added successfully:" + tasks[taskCount]);
-        taskCount++;
+        tasks.add(new Deadline(desc, by));
+        System.out.println("Task added successfully:" + tasks.getLast());
     }
 
     private static void addEvent(String desc, String from, String to) {
-        tasks[taskCount] = new Event(desc, from, to);
-        System.out.println("Task added successfully:" + tasks[taskCount]);
-        taskCount++;
+        tasks.add(new Event(desc, from, to));
+        System.out.println("Task added successfully:" + tasks.getLast());
     }
 }
