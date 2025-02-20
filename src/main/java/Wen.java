@@ -56,6 +56,7 @@ public class Wen {
             case "event":
                 if (!commandArgs.contains("/from") || !commandArgs.contains("/to")) {
                     System.out.println("Please specify the event duration using /from and /to!");
+                    System.out.println("Example: \"event Birthday party /from 6pm /to 8pm\"");
                     break;
                 }
                 final String eventDesc = commandArgs.split("/from", 2)[0].split("/to", 2)[0].trim();
