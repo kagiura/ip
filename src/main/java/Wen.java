@@ -1,8 +1,9 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Wen {
-
+    private static final WenStorage storage = new WenStorage();
     private static final ArrayList<Task> tasks = new ArrayList<Task>();
 
     public static void main(String[] args) {
@@ -76,8 +77,19 @@ public class Wen {
         terminateAndGoodbye();
     }
 
-
     private static void initializeAndGreet() {
+        if (!WenStorage.isFileExists()) {
+            WenStorage.writeToFile(new String[0]);
+        }
+        String[] data = WenStorage.readFromFile();
+        if (data.length > 0) {
+            System.out.println("[I've loaded " + data.length + " tasks from your local storage!]");
+            for (String datum : data) {
+                Task t = new Task("").fromString(datum);
+                tasks.add(t);
+            }
+        }
+
         System.out.println("Hello, I'm Wen!");
         System.out.println("Let me know what I can help you with~☆");
     }
@@ -88,6 +100,10 @@ public class Wen {
         System.out.println("It's okay, let's meet again soon!");
 
         System.exit(0);
+    }
+
+    private static void updateStorage() {
+        WenStorage.writeToFile(tasks.stream().map(Task::toString).toArray(String[]::new));
     }
 
     private static int taskCount() {
@@ -103,6 +119,7 @@ public class Wen {
 
     private static void markTask(Task task, boolean done) {
         task.setDone(done);
+        updateStorage();
         if (done) {
             System.out.println("Task marked as done: " + task);
         } else {
@@ -112,16 +129,19 @@ public class Wen {
 
     private static void addTodo(String description) {
         tasks.add(new Todo(description));
+        updateStorage();
         System.out.println("Task added successfully:" + tasks.getLast());
     }
 
     private static void addDeadline(String desc, String by) {
         tasks.add(new Deadline(desc, by));
+        updateStorage();
         System.out.println("Task added successfully:" + tasks.getLast());
     }
 
     private static void addEvent(String desc, String from, String to) {
         tasks.add(new Event(desc, from, to));
+        updateStorage();
         System.out.println("Task added successfully:" + tasks.getLast());
     }
 }
