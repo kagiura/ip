@@ -1,26 +1,67 @@
-# Duke project template
+# Wen: Your assistant chatbot!
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+This is Wen, your personal assistant for school-related tasks. Keep track of all your scheduling needs here!
 
-## Setting up in Intellij
+## User Guide
 
-Prerequisites: JDK 17, update Intellij to the most recent version.
+### `todo`
+Create a new to-do list item.
+#### Example
+```sh
+todo Get some milk
+```
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+### `deadline`
+Create a new deadline.
+#### Parameters
+- `/by` - The deadline to complete this task by.
+#### Example
+```sh
+deadline Complete CS2113 weekly quiz /by 12pm
+```
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+### `event`
+Create a new event.
+#### Parameters
+- `/from` - The start time of the event.
+- `/to` - The end time of the event.
+#### Example
+```sh
+deadline Join group meeting /from 5pm /to 8pm
+```
+
+### `list`
+Displays all of your tasks.
+#### Example
+```sh
+list
+```
+
+### `find`
+Find a task with the search query in the description.
+#### Parameters
+The word you want to search for
+#### Example
+```sh
+find CS2113
+```
+
+### `mark` & `unmark`
+Mark one of your tasks as done.
+#### Parameters
+The index of the task; you can find the task index by using `list` or `find`
+#### Example
+```sh
+mark 5
+unmark 3
+```
+
+### `delete`
+Deletes one of your tasks
+#### Parameters
+The index of the task; you can find the task index by using `list` or `find`
+#### Example
+```sh
+delete 4
+```
+
