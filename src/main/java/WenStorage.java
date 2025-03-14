@@ -10,24 +10,35 @@ public class WenStorage {
     private final String filePath;
     private final File storageFile;
 
+    /**
+     * Create a new storage instance using the default file path
+     */
     public WenStorage() {
         filePath = "./wen-storage.txt";
         storageFile = new File(filePath);
     }
 
+    /**
+     * Create a new storage instance using a custom file path
+     * @param customFilePath path to save info to, relative to the main code
+     */
     public WenStorage(String customFilePath) {
         filePath = customFilePath;
         storageFile = new File(filePath);
     }
 
+    /**
+     * Check if the storage file exists
+     * @return boolean to represent file state
+     */
     public boolean isFileExists() {
         return storageFile.exists();
     }
 
-    public String getAbsolutePath() {
-        return storageFile.getAbsolutePath();
-    }
-
+    /**
+     * Write any string to file
+     * @param data array of strings, to be joined in the saved file with newlines (\n)
+     */
     public void writeToFile(String[] data) {
         String dataString = "";
         for (String datum : data) {
@@ -46,13 +57,16 @@ public class WenStorage {
         }
     }
 
+    /**
+     * Read from file and return as strings
+     * @return array of strings, delimited with newlines (\n)
+     */
     public String[] readFromFile() {
         ArrayList<String> output = new ArrayList<>();
-        Scanner s = null; // create a Scanner using the File as the source
+        Scanner s = null;
         try {
             s = new Scanner(storageFile);
             while (s.hasNext()) {
-//                System.out.println("|" + s.nextLine());
                 output.add(s.nextLine());
             }
         } catch (FileNotFoundException e) {
