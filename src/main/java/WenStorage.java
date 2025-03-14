@@ -7,18 +7,28 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class WenStorage {
-    private static final String filePath = "./wen-storage.txt";
-    private static final File storageFile = new File(filePath);
+    private final String filePath;
+    private final File storageFile;
 
-    public static boolean isFileExists() {
+    public WenStorage() {
+        filePath = "./wen-storage.txt";
+        storageFile = new File(filePath);
+    }
+
+    public WenStorage(String customFilePath) {
+        filePath = customFilePath;
+        storageFile = new File(filePath);
+    }
+
+    public boolean isFileExists() {
         return storageFile.exists();
     }
 
-    public static String getAbsolutePath() {
+    public String getAbsolutePath() {
         return storageFile.getAbsolutePath();
     }
 
-    public static void writeToFile(String[] data) {
+    public void writeToFile(String[] data) {
         String dataString = "";
         for (String datum : data) {
             dataString += datum;
@@ -36,7 +46,7 @@ public class WenStorage {
         }
     }
 
-    public static String[] readFromFile() {
+    public String[] readFromFile() {
         ArrayList<String> output = new ArrayList<>();
         Scanner s = null; // create a Scanner using the File as the source
         try {

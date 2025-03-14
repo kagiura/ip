@@ -3,9 +3,16 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Wen {
-    private static TaskList tasks;
+//    private static String storagePath = "./wen-storage.txt";
+    private final TaskList tasks;
 
-    public static void main(String[] args) {
+    private Wen(String storagePath) {
+        tasks = new TaskList(storagePath);
+
+    }
+
+    private void run() {
+
         initializeAndGreet();
 
         String input = "";
@@ -87,9 +94,11 @@ public class Wen {
         terminateAndGoodbye();
     }
 
+    public static void main(String[] args) {
+        new Wen("./wen-storage.txt").run();
+    }
+
     private static void initializeAndGreet() {
-        tasks = new TaskList();
-        tasks.initializeFromStorage();
         System.out.println("Hello, I'm Wen!");
         System.out.println("Let me know what I can help you with~☆");
     }

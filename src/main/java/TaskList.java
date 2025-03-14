@@ -2,9 +2,17 @@ import java.util.ArrayList;
 
 public class TaskList {
     private final ArrayList<Task> tasks;
+    private final WenStorage WenStorage;
 
     public TaskList() {
         tasks = new ArrayList<>();
+        WenStorage = new WenStorage();
+    }
+
+    public TaskList(String filePath) {
+        tasks = new ArrayList<>();
+        WenStorage = new WenStorage(filePath);
+        initializeFromStorage(filePath);
     }
 
     private int count() {
@@ -65,7 +73,7 @@ public class TaskList {
         System.out.println("Task added successfully:" + tasks.getLast());
     }
 
-    public void initializeFromStorage(){
+    public void initializeFromStorage(String filePath){
         if (!WenStorage.isFileExists()) {
             WenStorage.writeToFile(new String[0]);
         }
