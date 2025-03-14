@@ -7,12 +7,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class WenStorage {
-    private static File storageFile;
     private static final String filePath = "./wen-storage.txt";
-
-    WenStorage() {
-        storageFile = new File(filePath);
-    }
+    private static final File storageFile = new File(filePath);
 
     public static boolean isFileExists() {
         return storageFile.exists();
