@@ -1,12 +1,24 @@
+/**
+ * A task where users can mark as done/undone, with different specific types
+ */
 public class Task {
     protected String description;
     protected boolean isDone;
 
+    /**
+     * Create a new task
+     * @param description basic description
+     */
     public Task(String description) {
         this.description = description;
         this.isDone = false;
     }
 
+    /**
+     * Parse the task from a string, usually for reading saved tasks.
+     * @param description The string to parse the task from
+     * @return a new task object, one of three types (Deadline, Event, Todo)
+     */
     public Task fromString(String description) {
         char taskType = description.charAt(1);
         boolean taskDone = description.charAt(4) == 'X';
@@ -52,14 +64,26 @@ public class Task {
         System.out.println(description);
     }
 
+    /**
+     * Get the task description
+     * @return String form of task description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Gets a simplified representation of the task
+     * @return A string form of the task, including its done state
+     */
     public String toString() {
         return "[" + (isDone ? "X" : " ") + "] " + description;
     }
 
+    /**
+     * Set the task to be done or not
+     * @param done New state of task to be set
+     */
     public void setDone(boolean done){
         isDone = done;
     }
