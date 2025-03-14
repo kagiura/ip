@@ -67,7 +67,7 @@ public class TaskList {
      */
     public void deleteTask(int taskIndex) {
         String taskToDelete = tasks.get(taskIndex - 1).toString();
-        tasks.remove(taskIndex);
+        tasks.remove(taskIndex -1);
         updateStorage();
         System.out.println("Task " + taskIndex + " has been deleted!");
         System.out.println("(" + taskToDelete + ")");
@@ -108,19 +108,19 @@ public class TaskList {
     public void addTodo(String description) {
         tasks.add(new Todo(description));
         updateStorage();
-        System.out.println("Task added successfully:" + tasks.getLast());
+        System.out.println("Task added successfully:" + tasks.get(tasks.size() - 1));
     }
 
     public void addDeadline(String desc, String by) {
         tasks.add(new Deadline(desc, by));
         updateStorage();
-        System.out.println("Task added successfully:" + tasks.getLast());
+        System.out.println("Task added successfully:" + tasks.get(tasks.size() - 1));
     }
 
     public void addEvent(String desc, String from, String to) {
         tasks.add(new Event(desc, from, to));
         updateStorage();
-        System.out.println("Task added successfully:" + tasks.getLast());
+        System.out.println("Task added successfully:" + tasks.get(tasks.size() - 1));
     }
 
     public void initializeFromStorage(String filePath){

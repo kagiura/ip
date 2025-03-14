@@ -32,10 +32,10 @@ public class Wen {
             case "delete":
                 try {
                     int taskIndex = Integer.parseInt(command.getArg());
-                    tasks.deleteTask(taskIndex -1);
+                    tasks.deleteTask(taskIndex);
                 } catch (NumberFormatException e) {
                     System.out.println("The task number is formatted incorrectly!");
-                } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+                } catch (NullPointerException | IndexOutOfBoundsException e) {
                     System.out.println("This task doesn't exist!");
                 }
                 break;
@@ -58,19 +58,27 @@ public class Wen {
             case "unmark":
                 try {
                     int taskIndex = Integer.parseInt(command.getArg());
-                    tasks.markTask(taskIndex - 1, command.equals("mark"));
+                    tasks.markTask(taskIndex, command.equals("mark"));
                 } catch (NumberFormatException e) {
                     System.out.println("The task number is formatted incorrectly!");
-                } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
+                } catch (NullPointerException | IndexOutOfBoundsException e) {
                     System.out.println("This task doesn't exist!");
                 }
                 break;
 
             case "todo":
+                if (!command.hasArg()) {
+                    System.out.println("Please specify a description for this todo!");
+                    break;
+                }
                 tasks.addTodo(command.getArg());
                 break;
 
             case "deadline":
+                if (!command.hasArg()) {
+                    System.out.println("Please specify a description for this deadline!");
+                    break;
+                }
                 if (!command.hasArg("by")) {
                     System.out.println("Please specify a due date using /by!");
                     break;
@@ -80,6 +88,10 @@ public class Wen {
                 break;
 
             case "event":
+                if (!command.hasArg()) {
+                    System.out.println("Please specify a description for this event!");
+                    break;
+                }
                 if (!command.hasArg("from") || !command.hasArg("to")) {
                     System.out.println("Please specify the event duration using /from and /to!");
                     System.out.println("Example: \"event Birthday party /from 6pm /to 8pm\"");
