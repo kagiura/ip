@@ -8,22 +8,20 @@ public class Wen {
 
     private Wen(String storagePath) {
         tasks = new TaskList(storagePath);
-
     }
 
     private void run() {
 
-        initializeAndGreet();
+        Ui.greet();
 
         String input = "";
         Scanner in = new Scanner(System.in);
 
 
         while (!input.equals("bye")) {
-            final String command = input.split(" ", 2)[0];
-            final String commandArgs = input.split(" ", 2).length > 1 ? input.split(" ", 2)[1] : "";
+            Parser command = new Parser(input);
 
-            switch (command) {
+            switch (command.getName()) {
             case "":
                 break;
 
@@ -33,7 +31,7 @@ public class Wen {
 
             case "delete":
                 try {
-                    int taskIndex = Integer.parseInt(commandArgs);
+                    int taskIndex = Integer.parseInt(command.getArg());
                     tasks.deleteTask(taskIndex -1);
                 } catch (NumberFormatException e) {
                     System.out.println("The task number is formatted incorrectly!");
@@ -45,7 +43,7 @@ public class Wen {
             case "mark":
             case "unmark":
                 try {
-                    int taskIndex = Integer.parseInt(commandArgs);
+                    int taskIndex = Integer.parseInt(command.getArg());
                     tasks.markTask(taskIndex - 1, command.equals("mark"));
                 } catch (NumberFormatException e) {
                     System.out.println("The task number is formatted incorrectly!");
@@ -55,32 +53,27 @@ public class Wen {
                 break;
 
             case "todo":
-                tasks.addTodo(commandArgs.trim());
+                tasks.addTodo(command.getArg());
                 break;
 
             case "deadline":
-                if (!commandArgs.contains("/by")) {
+                if (!command.hasArg("by")) {
                     System.out.println("Please specify a due date using /by!");
                     break;
                 }
-                final String deadlineDesc = commandArgs.split("/by", 2)[0].trim();
-                final String deadlineBy = commandArgs.split("/by", 2)[1].trim();
 
-                tasks.addDeadline(deadlineDesc, deadlineBy);
+                tasks.addDeadline(command.getArg(), command.getArg("by"));
                 break;
 
 
             case "event":
-                if (!commandArgs.contains("/from") || !commandArgs.contains("/to")) {
+                if (!command.hasArg("from") || !command.hasArg("to")) {
                     System.out.println("Please specify the event duration using /from and /to!");
                     System.out.println("Example: \"event Birthday party /from 6pm /to 8pm\"");
                     break;
                 }
-                final String eventDesc = commandArgs.split("/from", 2)[0].split("/to", 2)[0].trim();
-                final String eventFrom = commandArgs.split("/from", 2)[1].split("/to", 2)[0].trim();
-                final String eventTo = commandArgs.split("/to", 2)[1].split("/from", 2)[0].trim();
 
-                tasks.addEvent(eventDesc, eventFrom, eventTo);
+                tasks.addEvent(command.getArg(), command.getArg("from"), command.getArg("to"));
                 break;
 
             default:
@@ -91,23 +84,12 @@ public class Wen {
             input = in.nextLine();
         }
 
-        terminateAndGoodbye();
+        Ui.goodbye();
+        System.exit(0);
     }
 
     public static void main(String[] args) {
         new Wen("./wen-storage.txt").run();
     }
 
-    private static void initializeAndGreet() {
-        System.out.println("Hello, I'm Wen!");
-        System.out.println("Let me know what I can help you with~☆");
-    }
-
-    private static void terminateAndGoodbye() {
-        System.out.println();
-        System.out.println("Aw, you're already going?");
-        System.out.println("It's okay, let's meet again soon!");
-
-        System.exit(0);
-    }
 }
