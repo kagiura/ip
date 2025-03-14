@@ -52,6 +52,10 @@ public class Task {
         System.out.println(description);
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public String toString() {
         return "[" + (isDone ? "X" : " ") + "] " + description;
     }

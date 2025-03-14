@@ -1,5 +1,4 @@
 public class Ui {
-
     public static void greet() {
         System.out.println("Hello, I'm Wen!");
         System.out.println("Let me know what I can help you with~☆");

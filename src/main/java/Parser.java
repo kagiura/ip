@@ -2,17 +2,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Parser {
-    private String input;
-    private String commandName;
-    private String commandArgsString;
-    private Map<String, String> commandArgs;
+    private final String commandName;
+    private final Map<String, String> commandArgs;
 
 
     Parser(String input) {
-        this.input = input;
 
         commandName = input.split(" ", 2)[0];
-        commandArgsString = input.split(" ", 2).length > 1 ? input.split(" ", 2)[1] : "";
+        String commandArgsString = input.split(" ", 2).length > 1 ? input.split(" ", 2)[1] : "";
 
         commandArgs = new HashMap<>();
 

@@ -40,6 +40,20 @@ public class Wen {
                 }
                 break;
 
+            case "find":
+                ArrayList<Task> foundTasks = tasks.findTask(command.getArg());
+                if (foundTasks.isEmpty()) {
+                    System.out.println("There are no tasks found!");
+                } else {
+                    System.out.println("Found " + foundTasks.size() + " tasks!");
+                    for (Task task : foundTasks) {
+                        System.out.print(tasks.getIndex(task)+1);
+                        System.out.print(". ");
+                        System.out.println(task);
+                    }
+                }
+                break;
+
             case "mark":
             case "unmark":
                 try {
@@ -65,7 +79,6 @@ public class Wen {
                 tasks.addDeadline(command.getArg(), command.getArg("by"));
                 break;
 
-
             case "event":
                 if (!command.hasArg("from") || !command.hasArg("to")) {
                     System.out.println("Please specify the event duration using /from and /to!");
@@ -77,7 +90,7 @@ public class Wen {
                 break;
 
             default:
-                System.out.println("Unknown command \"" + command + "\"! Double check your message and try running again~");
+                System.out.println("Unknown command \"" + command.getName() + "\"! Double check your message and try running again~");
                 break;
             }
 

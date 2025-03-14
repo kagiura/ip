@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class TaskList {
@@ -35,6 +36,15 @@ public class TaskList {
         return tasks.get(index);
     }
 
+    public int getIndex(Task task) {
+        for (int i = 0; i < count(); i++) {
+            if (tasks.get(i).equals(task)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public void deleteTask(int taskIndex) {
         String taskToDelete = tasks.get(taskIndex - 1).toString();
         tasks.remove(taskIndex);
@@ -53,6 +63,16 @@ public class TaskList {
         } else {
             System.out.println("Task marked as incomplete: " + task);
         }
+    }
+
+    public ArrayList<Task> findTask(String query) {
+        ArrayList<Task> foundTasks = new ArrayList<>();
+        for (int i = 0; i < count(); i++) {
+            if (tasks.get(i).getDescription().contains(query)) {
+                foundTasks.add(tasks.get(i));
+            }
+        }
+        return foundTasks;
     }
 
     public void addTodo(String description) {
